@@ -1,0 +1,128 @@
+.navbar {
+    border-radius: 0px;
+}
+
+.scroller {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    top: 96px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.pager {
+    border-radius: 0px;
+    display: block;
+    margin: 0px;
+}
+
+.pager li:first-child > a {
+    border-right: 2px solid #2c3e50;
+}
+#today-menu,
+#add-menu {
+    background-color: #3498db;
+    color: white;
+}
+
+
+
+#today-datebar {
+    margin-top: 48px;
+    color: white;
+    text-transform: none;
+    background-color: #34495e;
+    min-height: 48px;
+}
+
+#today-statusbar {
+    background-color: #34495e;
+}
+
+.goal {
+    text-transform: none;
+    padding: 10px;
+    clear: both;
+}
+.goal-odd {
+    background-color: #ffffff;
+}
+.goal-even {
+    background-color: #f2f5f6;
+}
+
+.goal-titlebar {
+
+}
+.goal-title {
+    display: inline-block;
+    font-size: 1.5em;
+    color: #000000;
+    padding-right: 10px;
+}
+.goal-desc {
+    font-size: 1em;
+    color: #7f8c8d;
+    display: inline-block;
+}
+.goal-content {
+
+}
+
+.goal-selector {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.goal-selector-item {
+    display: inline;
+    float: left;
+    padding: 10px;
+    text-align: center;
+}
+.goal-selector-img {
+    width: 32px;
+    height: 32px;
+    margin: 8px;
+}
+
+.goal-selector-block {
+    display: block;
+}
+.goal-selector-block-img {
+    display: block;
+}
+
+.goal-selector-block-label {
+    display: block;
+}
+
+.splash-image
+{
+    width: 100%;
+    height:auto;
+    opacity: .2;
+}
+.splash-page
+{
+    width: 100%;
+    height:auto;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    position: absolute;
+}
+
+.splash-message
+{
+    width: 100%;
+    text-align: center;
+    height:auto;
+    padding-top: 10%;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    position: absolute;
+}

@@ -1,0 +1,16 @@
+{
+    "name":"<%= _.slugify(appName) %>",
+	"description":"<%= _.slugify(appName) %> mobile app",
+	"launch_path":"/index.html", 
+    	"icons":{
+        	"128":"/icon.png"
+    	},
+	"developer": {
+        	"name":"<%= _.slugify(authorName) %>"
+	},
+	"default_locale":"en",
+	"type": "privileged",
+    "permissions": {
+    "systemXHR": { "description": "Required to make Ajax Calls over the Network" }
+    }
+}
