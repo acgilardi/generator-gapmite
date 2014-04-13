@@ -1,14 +1,6 @@
 {
-    "name": "<%= _.slugify(appName) %>",
-    "version": "<%= _.slugify(appVersion) %>",
-    "main": "www/js/index.js",
-    "scripts": {
-        "test": "grunt test"
-    },
-    "author": "<%= _.slugify(authorName) %>",
-    "keywords": [
-        "cordova"
-    ],
+    "name": "package",
+    "version": "0.0.0",
     "dependencies": {},
     "devDependencies": {
         "grunt-cli": "0.1.x",
@@ -42,6 +34,7 @@
         "jasmine-expect": "~1.21.0",
         "grunt-contrib-handlebars": "~0.7.0",
         "hbsfy": "~1.0.0",
-        "grunt-contrib-less": "~0.8.3"
+        "grunt-contrib-less": "~0.8.3",
+        "grunt-cordovacli": "~0.3.4"
     }
 }

@@ -1,11 +1,6 @@
 {
-    "name": "<%= _.slugify(appName) %>",
-    "version": "<%= _.slugify(appVersion) %>",
-    "homepage": "https://github.com/appmite/lifemite-backbone-phonegap",
-    "authors": [
-        "<%= _.slugify(authorName) %> <<%= _.slugify(authorEmail) %>>"
-    ],
-    "description": "<%= _.slugify(appName) %> mobile app",
+    "name": "package",
+    "version": "0.0.0",
     "main": "src/app.js",
     "license": "MIT",
     "private": true,

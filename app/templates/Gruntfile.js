@@ -4,9 +4,56 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
     //require('load-grunt-tasks')(grunt,{ pattern: ['grunt-*', '!grunt-cli']} );
 
+    // configurable paths
+    var yeomanConfig = {
+        app: 'app',
+        dist: 'dist'
+    };
+
     // Project configuration.
     grunt.initConfig({
+        yeoman: yeomanConfig,
         pkg: grunt.file.readJSON('package.json'),
+
+        cordovacli: {
+            options: {
+                path: '<%%= yeoman.app %>'
+            },
+            cordova: {
+                options: {
+                    command: ['create', 'platform', 'plugin'],
+                    platforms: <%= platforms %>,
+                    plugins:  <%= plugins %>,
+                    id: '<%= appId %>',
+                    name: '<%= _.slugify(appName) %>'
+                }
+            },
+            build: {
+                options: {
+                command: 'build'
+                }
+            },
+            emulate: {
+                options: {
+                command: 'emulate'
+                }
+            },
+            run: {
+                options: {
+                command: 'run'
+                }
+            },
+            prepare: {
+                options: {
+                command: 'prepare'
+                }
+            },
+            compile: {
+                options: {
+                command: 'compile'
+                }
+            }
+        },
 
         bower: {
             install: {
@@ -64,18 +111,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-
-//        less: {
-//            transpile: {
-//                files: {
-//                    'build/<%= pkg.name %>.css': [
-//                        'client/vendor/*/css/*',
-//                        'client/css/**/*.css',
-//                        'client/less/**/*.less'
-//                    ]
-//                }
-//            }
-//        },
 
         concat: {
             'build/<%= pkg.name %>.js': ['build/vendor.js','build/flatui.js', 'build/app.js'],
@@ -199,6 +234,7 @@ module.exports = function (grunt) {
     });
 
     // Load tasks
+    grunt.loadNpmTasks('grunt-cordovacli');
     grunt.loadNpmTasks('grunt-browserify');
     //grunt.loadNpmTasks('grunt-bower');
     //grunt.loadNpmTasks('grunt-bower-task');
@@ -235,4 +271,43 @@ module.exports = function (grunt) {
     //grunt.registerTask('tdd', ['karma:unit','watch']);
 
     grunt.registerTask('server', ['build:dev', 'watch']);
+
+
+    
+
+
+
+
+
+
+
+
+
+    grunt.registerTask('default', ['build']);
+    grunt.registerTask('lint',    ['jshint']);
+    grunt.registerTask('server',  ['build', 'emulate', 'watch:cordova']);
+
+
+
+
+    grunt.task.registerTask('build', 'Builds a Cordova App', function () {
+        var check;
+
+        check = (yeomanConfig.app + '/.cordova/config.json');
+
+        if (grunt.file.exists(check)) {
+            grunt.log.writeln(check + ' exists, only do build');
+            grunt.task.run(['cordovacli:build']);
+        } else {
+            grunt.log.writeln(check + ' does not exists, creating app and building');
+            grunt.task.run(['cordovacli:cordova', 'cordovacli:build']);
+        }
+
+    });
+
+    grunt.registerTask('prepare', ['cordovacli:prepare']);
+    grunt.registerTask('compile', ['cordovacli:compile']);
+    grunt.registerTask('emulate', ['cordovacli:emulate']);
+    grunt.registerTask('run',     ['cordovacli:run']);
+    grunt.registerTask('demo',    ['build', 'emulate']);
 };
