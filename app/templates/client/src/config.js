@@ -1,5 +1,5 @@
 config = {
-    dbName: 'lifemitedb',
+    dbName: 'appdb',
     dbVersion: 1,
     dbForceNew: true,
     language: navigator.language.toLowerCase()

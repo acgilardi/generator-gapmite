@@ -4,7 +4,7 @@ var Backbone = require('backbone'),
     BrowserDb = require('../src/services/data'),
     TodayView = require('../src/views/today');
 
-describe('lifeMite app', function() {
+describe('app', function() {
 
     it('is instantiable', function () {
         expect(app).toBeDefined();
@@ -26,13 +26,25 @@ describe('lifeMite app', function() {
 
         var version;
         var collections;
-        var openSuccess = false;
+        var openSuccess = undefined;
 
         beforeEach(function() {
-            var request = window.indexedDB.open(app.config.dbName);
-            request.onsuccess = function(e) {
-                openSuccess = true;
-            };
+
+            function openDb() {
+                var request = window.indexedDB.open(app.config.dbName);
+                request.onsuccess = function(e) {
+                    openSuccess = true;
+                    version = e.target.result.version;
+                };
+                request.onerror = function(e) {
+                    openSuccess = false;
+                }
+            }
+
+            runs(openDb);
+            waitsFor(function() {
+                return openSuccess !== undefined;
+            });
         });
 
         it('exist as an indexedDb', function () {
@@ -129,12 +141,18 @@ describe('lifeMite app', function() {
     });
 
     describe('receivedEvent', function() {
+
+        var el;
+
         beforeEach(function() {
-            var el = document.getElementById('lifemite-app');
+            el = document.getElementById('app');
             el.innerHTML = ['<div id="deviceready">',
                 '    <p class="event listening">Listening</p>',
                 '    <p class="event received">Received</p>',
                 '</div>'].join('\n');
+        });
+        afterEach(function() {
+            el.remove();
         });
 
         it('should hide the listening element', function() {

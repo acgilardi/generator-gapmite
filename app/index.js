@@ -19,7 +19,8 @@ var GapmiteGenerator = yeoman.generators.Base.extend({
 
                   var child;
                   console.log('Running Grunt');
-                  child = cprocess.spawn('grunt', ['cordovacli:cordova']);
+                  //child = cprocess.spawn('grunt', ['cordovacli:cordova']);
+                  child = cprocess.spawn('grunt', ['build']);
 
                   child.stdout.setEncoding('utf8');
                   child.stdout.on('data', function (data) {
@@ -86,10 +87,10 @@ var GapmiteGenerator = yeoman.generators.Base.extend({
   },
 
   app: function () {
-    //this.mkdir('flatui');
-    //this.directory('flatui', 'flatui');
-    //this.mkdir('www');
-    //this.directory('www', 'client');
+    this.mkdir('flatui');
+    this.directory('flatui', 'flatui');
+    this.mkdir('client');
+    this.directory('client', 'client');
 
     this.copy('_package.json', 'package.json');
     this.copy('_bower.json', 'bower.json');

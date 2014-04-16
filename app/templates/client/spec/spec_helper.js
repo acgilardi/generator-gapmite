@@ -1,7 +1,5 @@
 /* global app, require, jasmine, beforeEach, afterEach */
 
-
-
 (function(){
     'use strict';
 
@@ -10,7 +8,7 @@
     var Backbone = require('backbone'),
         App = require('../src/app');
 
-    config.dbName = 'lifemitedb_test';
+    config.dbName = 'appdb_test';
     config.dbForceNew = true;
 
 
@@ -37,7 +35,7 @@
                 return window.getComputedStyle(element).getPropertyValue(property);
             }
         };
-        Backbone.$('<div id="lifemite-app" class="lifemite-app"></div>').appendTo('body');
+        Backbone.$('<div id="app" class="app"></div>').appendTo('body');
 
         // initialize the app. This is async so wait
         window.app = new App();

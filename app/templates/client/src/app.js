@@ -18,7 +18,7 @@ window.App = module.exports = function(){};
 
 window.App.prototype = {
     initialized: false,
-    //config: {},
+    config: {},
     loc: {},
     views: {},
     //models: {},

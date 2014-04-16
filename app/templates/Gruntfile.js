@@ -1,12 +1,15 @@
 /*global module:false*/
 module.exports = function (grunt) {
 
+    //TODO: change config to contain all locations and update grunt accordingly
+
     require('time-grunt')(grunt);
     //require('load-grunt-tasks')(grunt,{ pattern: ['grunt-*', '!grunt-cli']} );
 
     // configurable paths
     var yeomanConfig = {
         app: 'app',
+        build: 'build',
         dist: 'dist'
     };
 
@@ -14,46 +17,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         pkg: grunt.file.readJSON('package.json'),
-
-        cordovacli: {
-            options: {
-                path: '<%%= yeoman.app %>'
-            },
-            cordova: {
-                options: {
-                    command: ['create', 'platform', 'plugin'],
-                    platforms: <%= platforms %>,
-                    plugins:  <%= plugins %>,
-                    id: '<%= appId %>',
-                    name: '<%= _.slugify(appName) %>'
-                }
-            },
-            build: {
-                options: {
-                command: 'build'
-                }
-            },
-            emulate: {
-                options: {
-                command: 'emulate'
-                }
-            },
-            run: {
-                options: {
-                command: 'run'
-                }
-            },
-            prepare: {
-                options: {
-                command: 'prepare'
-                }
-            },
-            compile: {
-                options: {
-                command: 'compile'
-                }
-            }
-        },
 
         bower: {
             install: {
@@ -65,12 +28,9 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            build: ['build'],
+            build: ['build', 'app/www'],
             dev: {
                 src: ['build/app.js']
-            },
-            test: {
-                src: ['build/app.js','build/spec.js']
             }
         },
 
@@ -94,7 +54,7 @@ module.exports = function (grunt) {
             },
             app: {
                 files: {
-                    'build/app.js': ['client/src/**/*.js']
+                    'build/client.js': ['client/src/**/*.js']
                 },
                 options: {
                     transform: ['hbsfy'],
@@ -113,8 +73,8 @@ module.exports = function (grunt) {
         },
 
         concat: {
-            'build/<%= pkg.name %>.js': ['build/vendor.js','build/flatui.js', 'build/app.js'],
-            'build/<%= pkg.name %>.css': [
+            'build/app.js': ['build/vendor.js','build/flatui.js', 'build/client.js'],
+            'build/app.css': [
                 'client/vendor/*/css/*',
                 'client/css/**/*.css',
                 'client/less/**/*.less'
@@ -125,38 +85,31 @@ module.exports = function (grunt) {
             initial: {
                 files: [
                     {
-                        src: './SpecRunner.html',
+                        src: 'client/SpecRunner.html',
                         dest: 'build/SpecRunner.html'
                     }, {
-                        expand: true,
-                        flatten: true,
-                        src: 'client/locales/*',
-                        dest: 'build/locales/'
-                    },{
+                        src: 'client/index.html',
+                        dest: 'app/www/index.html'
+                    }, {
                         expand: true,
                         flatten: true,
                         src: 'client/img/*',
-                        dest: 'www/images/'
+                        dest: 'app/www/images/'
                     }, {
                         expand: true,
                         flatten: true,
-                        src: 'client/cordova/*',
-                        dest: 'www/'
-                    },{
-                        expand: true,
-                        flatten: true,
                         src: 'flatui/css/**/*.css',
-                        dest: 'www/css/'
+                        dest: 'app/www/css/'
                     }, {
                         expand: true,
                         flatten: true,
                         src: 'flatui/js/**/*.js',
-                        dest: 'www/js/'
+                        dest: 'app/www/js/'
                     }, {
                         expand: true,
                         cwd: 'flatui/',
                         src: '**',
-                        dest: 'www/',
+                        dest: 'app/www/',
                         flatten: false,
                         filter: 'isFile'
                     }, {
@@ -168,18 +121,18 @@ module.exports = function (grunt) {
                         expand: true,
                         flatten: true,
                         src: 'client/locales/*',
-                        dest: 'www/locales'
+                        dest: 'app/www/locales'
                     }
                 ]
             },
             dev: {
                 files: [
                     {
-                        src: 'build/<%= pkg.name %>.js',
-                        dest: 'www/js/<%= pkg.name %>.js'
+                        src: 'build/app.js',
+                        dest: 'app/www/js/app.js'
                     }, {
-                        src: 'build/<%= pkg.name %>.css',
-                        dest: 'www/css/<%= pkg.name %>.css'
+                        src: 'build/app.css',
+                        dest: 'app/www/css/app.css'
                     }
                 ]
             }
@@ -187,8 +140,8 @@ module.exports = function (grunt) {
 
         uglify: {
             dist: {
-                src: ['www/js/<%= pkg.name %>.js'],
-                dest: 'www/js/<%= pkg.name %>.min.js'
+                src: ['app/www/js/app.js'],
+                dest: 'app/www/js/app.min.js'
             }
         },
 
@@ -230,7 +183,47 @@ module.exports = function (grunt) {
                 background: false,
                 autoWatch: true
             }
-        }
+        },
+
+        cordovacli: {
+            options: {
+                path: '<%%= yeoman.app %>'
+            },
+            cordova: {
+                options: {
+                    command: ['create', 'platform', 'plugin'],
+                    platforms: <%= platforms %>,
+                    plugins:  <%= plugins %>,
+                    id: '<%= appId %>',
+                    name: '<%= _.slugify(appName) %>'
+                }
+            },
+            build: {
+                options: {
+                    command: 'build'
+                }
+            },
+            emulate: {
+                options: {
+                command: 'emulate'
+                }
+            },
+            run: {
+                options: {
+                command: 'run'
+                }
+            },
+            prepare: {
+                options: {
+                command: 'prepare'
+                }
+            },
+            compile: {
+                options: {
+                command: 'compile'
+                }
+            }
+         },
     });
 
     // Load tasks
@@ -260,35 +253,14 @@ module.exports = function (grunt) {
 
     // Custom tasks
     grunt.registerTask('init:dev', ['clean', 'load-bower', 'browserify:vendor', 'browserify:flatui', 'copy:initial']);
-
-    grunt.registerTask('build:prod', ['clean:dev', 'browserify:app', 'browserify:test', 'concat', 'copy:dev', 'uglify']);
-
     grunt.registerTask('build:dev', ['clean:dev', 'browserify:app', 'browserify:test', 'concat', 'copy:dev']);
-
-   // grunt.registerTask('build', ['clean:dev', 'browserify:app', 'browserify:test', 'less:transpile', 'concat', 'copy:dev', 'uglify']);
-    //grunt.registerTask('build:test', ['browserify:app', 'browserify:test']);
-
-    //grunt.registerTask('tdd', ['karma:unit','watch']);
-
+    grunt.registerTask('server:emulate', ['build:dev', 'emulate', 'watch']);
     grunt.registerTask('server', ['build:dev', 'watch']);
 
-
-    
-
-
-
-
-
-
-
-
-
+    // Cordova build commands
     grunt.registerTask('default', ['build']);
     grunt.registerTask('lint',    ['jshint']);
-    grunt.registerTask('server',  ['build', 'emulate', 'watch:cordova']);
-
-
-
+    //grunt.registerTask('server',  ['build', 'emulate', 'watch:cordova']);
 
     grunt.task.registerTask('build', 'Builds a Cordova App', function () {
         var check;
@@ -297,12 +269,11 @@ module.exports = function (grunt) {
 
         if (grunt.file.exists(check)) {
             grunt.log.writeln(check + ' exists, only do build');
-            grunt.task.run(['cordovacli:build']);
+            grunt.task.run(['init:dev', 'cordovacli:build', 'build:dev']);
         } else {
             grunt.log.writeln(check + ' does not exists, creating app and building');
-            grunt.task.run(['cordovacli:cordova', 'cordovacli:build']);
+            grunt.task.run(['cordovacli:cordova', 'init:dev', 'cordovacli:build', 'build:dev']);
         }
-
     });
 
     grunt.registerTask('prepare', ['cordovacli:prepare']);
