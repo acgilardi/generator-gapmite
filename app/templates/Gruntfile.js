@@ -269,10 +269,10 @@ module.exports = function (grunt) {
 
         if (grunt.file.exists(check)) {
             grunt.log.writeln(check + ' exists, only do build');
-            grunt.task.run(['init:dev', 'cordovacli:build', 'build:dev']);
+            grunt.task.run(['init:dev', 'build:dev', 'cordovacli:build']);
         } else {
             grunt.log.writeln(check + ' does not exists, creating app and building');
-            grunt.task.run(['cordovacli:cordova', 'init:dev', 'cordovacli:build', 'build:dev']);
+            grunt.task.run(['cordovacli:cordova', 'init:dev', 'build:dev', 'cordovacli:build']);
         }
     });
 
@@ -280,5 +280,5 @@ module.exports = function (grunt) {
     grunt.registerTask('compile', ['cordovacli:compile']);
     grunt.registerTask('emulate', ['cordovacli:emulate']);
     grunt.registerTask('run',     ['cordovacli:run']);
-    grunt.registerTask('demo',    ['build', 'emulate']);
+    //grunt.registerTask('demo',    ['build', 'emulate']);
 };
