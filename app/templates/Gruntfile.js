@@ -265,7 +265,8 @@ module.exports = function (grunt) {
     grunt.task.registerTask('build', 'Builds a Cordova App', function () {
         var check;
 
-        check = (yeomanConfig.app + '/.cordova/config.json');
+        //check = (yeomanConfig.app + '/.cordova/config.json');
+        check = (yeomanConfig.app + '/config.xml');
 
         if (grunt.file.exists(check)) {
             grunt.log.writeln(check + ' exists, only do build');
