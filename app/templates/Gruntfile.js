@@ -263,7 +263,7 @@ module.exports = function (grunt) {
     grunt.registerTask('init:dev', ['clean', 'load-bower', 'browserify:vendor', 'browserify:flatui', 'copy:initial']);
     grunt.registerTask('build:dev', ['clean:dev', 'browserify:app', 'browserify:test', 'concat', 'copy:dev']);
     grunt.registerTask('server:emulate', ['build:dev', 'emulate', 'watch']);
-    grunt.registerTask('server', ['build:dev', 'shell:www', 'shell:test', 'watch']);
+    grunt.registerTask('server', ['build:dev', 'shell', 'shell:test', 'watch']);
 
     // Cordova build commands
     grunt.registerTask('default', ['build']);
