@@ -9,8 +9,8 @@ var Backbone = require('backbone'),
 //
 var Router = module.exports = Backbone.Router.extend({
     initialize: function(options) {
-//        this.views = ['today', 'add'];
-//        this.slider = new PageSlider($('body'));
+        this.views = ['today', 'add'];
+        this.slider = new PageSlider($('body'));
     },
     routes: {
         '': 'root',
@@ -50,9 +50,7 @@ var Router = module.exports = Backbone.Router.extend({
         this.destroyCurrentView();
 
         app.views.currentView = view;
-        //app.views.currentView.setElement(Backbone.$('.lifemite-app')).render();
-        //view.render();
-        //this.slider.slidePage(view.$el);
+        this.slider.slidePage(view.$el);
     },
     destroyCurrentView: function() {
         if(app.views.currentView) {

@@ -1,16 +1,14 @@
 /*global module:false*/
 module.exports = function (grunt) {
-
-    //TODO: change config to contain all locations and update grunt accordingly
-
     require('time-grunt')(grunt);
-    //require('load-grunt-tasks')(grunt,{ pattern: ['grunt-*', '!grunt-cli']} );
 
     // configurable paths
     var yeomanConfig = {
         app: 'app',
         build: 'build',
-        dist: 'dist'
+        dist: 'dist',
+        www: 'file://localhost' + __dirname + '/app/www/index.html',
+        specRunner: 'file://localhost' + __dirname + '/build/SpecRunner.html'
     };
 
     // Project configuration.
@@ -224,48 +222,56 @@ module.exports = function (grunt) {
                 }
             }
          },
+
+        shell: {
+            open: {
+                command: 'open "/Applications/Google\ Chrome.app" -n --args --enable-file-cookies  --disable-web-security -allow-file-access-from-files'
+            },
+            www: {
+                command: 'open '+ yeomanConfig.www
+            },
+            test: {
+                command: 'open ' + yeomanConfig.specRunner
+            }
+        }
     });
 
-    // Load tasks
+    // load grunt tasks (we dont use load-grunt-tasks) because that
+    // requires all tasks be loaded. we require conditional loading
+    // to speed grunt processes
     grunt.loadNpmTasks('grunt-cordovacli');
     grunt.loadNpmTasks('grunt-browserify');
-    //grunt.loadNpmTasks('grunt-bower');
-    //grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('hbsfy');
 
-    //grunt.loadNpmTasks('grunt-contrib-less');
-
-
+    // load bower tasks independently
     grunt.registerTask('load-bower', [], function () {
         grunt.loadNpmTasks('grunt-bower');
         grunt.loadNpmTasks('grunt-bower-task');
         grunt.task.run('bower');
     });
 
-
     // Custom tasks
     grunt.registerTask('init:dev', ['clean', 'load-bower', 'browserify:vendor', 'browserify:flatui', 'copy:initial']);
     grunt.registerTask('build:dev', ['clean:dev', 'browserify:app', 'browserify:test', 'concat', 'copy:dev']);
     grunt.registerTask('server:emulate', ['build:dev', 'emulate', 'watch']);
-    grunt.registerTask('server', ['build:dev', 'watch']);
+    grunt.registerTask('server', ['build:dev', 'shell:www', 'shell:test', 'watch']);
 
     // Cordova build commands
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('lint',    ['jshint']);
-    //grunt.registerTask('server',  ['build', 'emulate', 'watch:cordova']);
+    grunt.registerTask('lint', ['jshint']);
 
     grunt.task.registerTask('build', 'Builds a Cordova App', function () {
         var check;
 
-        //check = (yeomanConfig.app + '/.cordova/config.json');
         check = (yeomanConfig.app + '/config.xml');
 
         if (grunt.file.exists(check)) {
