@@ -54,7 +54,7 @@
         if(Backbone.History.started) {
             Backbone.history.stop();
         }
-        Backbone.$('.js-nue-app').remove();
+        Backbone.$('.app').remove();
     });
 
 })();

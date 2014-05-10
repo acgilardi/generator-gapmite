@@ -10,7 +10,7 @@ var Backbone = require('backbone'),
 var Router = module.exports = Backbone.Router.extend({
     initialize: function(options) {
         this.views = ['today', 'add'];
-        this.slider = new PageSlider($('body'));
+        this.slider = new PageSlider($('#app'));
     },
     routes: {
         '': 'root',
