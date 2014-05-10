@@ -225,14 +225,16 @@ module.exports = function (grunt) {
 
         shell: {
             open: {
-                command: 'open "/Applications/Google\ Chrome.app" -n --args --enable-file-cookies  --disable-web-security -allow-file-access-from-files'
+                command: 'open "/Applications/Google\ Chrome.app" ' +
+                    '-n --args --enable-file-cookies  --disable-web-security -allow-file-access-from-files ' +
+                    yeomanConfig.www + ' ' + yeomanConfig.specRunner
             },
-            www: {
-                command: 'open '+ yeomanConfig.www
-            },
-            test: {
-                command: 'open ' + yeomanConfig.specRunner
-            }
+            // www: {
+            //     command: 'open '+ yeomanConfig.www
+            // },
+            // test: {
+            //     command: 'open ' + yeomanConfig.specRunner
+            // }
         }
     });
 
