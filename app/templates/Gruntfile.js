@@ -229,12 +229,6 @@ module.exports = function (grunt) {
                     '-n --args --enable-file-cookies  --disable-web-security -allow-file-access-from-files ' +
                     yeomanConfig.www + ' ' + yeomanConfig.specRunner
             },
-            // www: {
-            //     command: 'open '+ yeomanConfig.www
-            // },
-            // test: {
-            //     command: 'open ' + yeomanConfig.specRunner
-            // }
         }
     });
 
