@@ -3,15 +3,11 @@
 (function(){
     'use strict';
 
+    require('./config');
     require('jasmine-expect');
 
     var Backbone = require('backbone'),
         App = require('../src/app');
-
-    config.dbName = 'appdb_test';
-    config.dbForceNew = true;
-
-
 
     beforeEach(function() {
         if(Backbone.History.started) {
@@ -33,16 +29,23 @@
             getComputedStyle: function(querySelector, property) {
                 var element = document.querySelector(querySelector);
                 return window.getComputedStyle(element).getPropertyValue(property);
+            },
+            isVisible: function(view, jqueryKey) {
+                if (view.$(jqueryKey).first().css('display') === undefined) {
+                    return false;
+                } else {
+                    return view.$(jqueryKey).first()
+                        .css('display') !== 'none'
+                }
             }
         };
         Backbone.$('<div id="app" class="app"></div>').appendTo('body');
 
         // initialize the app. This is async so wait
         window.app = new App();
-        config.dbForceNew = false;
 
-        function initApp(){
-            app.initialize();
+        function initApp() {
+            app.initialize(config);
         }
         runs(initApp);
         waitsFor(function(){

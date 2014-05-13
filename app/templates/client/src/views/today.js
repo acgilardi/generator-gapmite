@@ -9,7 +9,8 @@ var TodayView = module.exports = Backbone.View.extend({
         this.render();
     },
     events: {
-        //'click #nav-add': 'onAdd'
+        'click #nav-add': 'onAdd',
+        'click .splash-page': 'hideGuide'
     },
     render: function() {
 
@@ -26,25 +27,33 @@ var TodayView = module.exports = Backbone.View.extend({
 //            }
 //        });
 
-//        // show guide on first visit
-//        if (app.models.preference.get('firstVisit') === true) {
-//            this.presentGuide();
-//            app.models.preference.set('firstVisit', false);
-//
-//            app.models.preference.save({
-//                success: function(data) {
-//                    //callback(null, data);
-//                }
-//            });
-//        }
+        // show guide on first visit
+        if (app.models.preference.get('firstVisit') === true) {
+            this.presentGuide();
+            app.models.preference.set('firstVisit', false);
+            app.models.preference.save({
+                success: function(data) {
+                    console.log('firstVisit preference saved');
+                    //callback(null, data);
+                },
+                error: function(data) {
+                    console.log('error');
+                }
+            });
+        } else {
+            this.hideGuide();
+        }
 
 
 //        return this;
     },
-//    presentGuide: function() {
-//        this.$('.splash-page').show();
-//    }
-//    onAdd: function() {
-//        //app.router.add();
-//    }
+    presentGuide: function() {
+        this.$('.splash-page').show();
+    },
+    hideGuide: function() {
+        this.$('.splash-page').hide();
+    },
+    onAdd: function() {
+        app.router.add();
+    }
 });

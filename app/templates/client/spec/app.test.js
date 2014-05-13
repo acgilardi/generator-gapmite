@@ -1,7 +1,6 @@
 var Backbone = require('backbone'),
     _ = require('underscore'),
     I18n = require('../src/services/i18n'),
-    BrowserDb = require('../src/services/data'),
     TodayView = require('../src/views/today');
 
 describe('app', function() {
@@ -71,77 +70,43 @@ describe('app', function() {
 
         beforeEach(function() {
             testLocale = function(locale) {
-                app.config.language = locale;
-                app.initialized = false;
-
-                function initApp(){
-                    app.initialize();
-                }
-                function test(){
-                   expect(app.loc.__('test-word-cat')).toEqual(data[locale]);
-                }
-
-                runs(initApp);
-                waitsFor(function(){
-                    return app.initialized;
+                app.loc = new I18n({
+                    directory: "locales",
+                    locale: locale,
+                    extension: ".json"
                 });
-                runs(test);
+
+                expect(app.loc.__('test-word-cat')).toEqual(data[locale]);
             };
         });
-        it('can present text in english', function () {
-            expect(app.loc.__('test-word-cat')).toEqual(data['en-us']);
+
+        it('can present text in english (' + data['en-us'] + ')', function () {
+            testLocale('en-us');
         });
-        it('can present text in Korean', function () {
+        it('can present text in Korean (' + data['ko'] + ')', function () {
             testLocale('ko');
         });
-        it('can present text in Spanish', function () {
+        it('can present text in Spanish (' + data['es'] + ')', function () {
             testLocale('es');
         });
-        it('can present text in Russian', function () {
+        it('can present text in Russian (' + data['ru'] + ')', function () {
             testLocale('ru');
         });
-        it('can present text in German', function () {
+        it('can present text in German (' + data['de'] + ')', function () {
             testLocale('de');
         });
-        it('can present text in Japanese', function () {
+        it('can present text in Japanese (' + data['ja'] + ')', function () {
             testLocale('ja');
         });
-        it('can present text in French', function () {
+        it('can present text in French (' + data['fr'] + ')', function () {
             testLocale('fr');
         });
-        it('can present text in Portuguese', function () {
+        it('can present text in Portuguese (' + data['pt'] + ')', function () {
             testLocale('pt');
         });
     });
 
-    describe('initialize', function() {
-        it('should bind deviceready', function() {
-            runs(function() {
-                spyOn(app, 'onDeviceReady');
-                app.initialize();
-                this.helper.trigger(window.document, 'deviceready');
-            });
-
-            waitsFor(function() {
-                return (app.onDeviceReady.calls.length > 0);
-            }, 'onDeviceReady should be called once', 500);
-
-            runs(function() {
-                expect(app.onDeviceReady).toHaveBeenCalled();
-            });
-        });
-    });
-
-    describe('onDeviceReady', function() {
-        it('should report that it fired', function() {
-            spyOn(app, 'receivedEvent');
-            app.onDeviceReady();
-            expect(app.receivedEvent).toHaveBeenCalledWith('deviceready');
-        });
-    });
-
-    describe('receivedEvent', function() {
-
+    describe('handle global events', function () {
         var el;
 
         beforeEach(function() {
@@ -155,17 +120,60 @@ describe('app', function() {
             el.remove();
         });
 
-        it('should hide the listening element', function() {
-            app.receivedEvent('deviceready');
-            var displayStyle = this.helper.getComputedStyle('#deviceready .listening', 'display');
-            expect(displayStyle).toEqual('none');
+        describe('initialize', function() {
+            it('should bind deviceready', function() {
+                runs(function() {
+                    spyOn(app, 'onDeviceReady');
+                    app.initialize(config);
+                    this.helper.trigger(window.document, 'deviceready');
+                });
+
+                waitsFor(function() {
+                    return (app.onDeviceReady.calls.length > 0);
+                }, 'onDeviceReady should be called once', 500);
+
+                runs(function() {
+                    expect(app.onDeviceReady).toHaveBeenCalled();
+                });
+            });
         });
 
-        it('should show the received element', function() {
-            app.receivedEvent('deviceready');
-            var displayStyle = this.helper.getComputedStyle('#deviceready .received', 'display');
-            expect(displayStyle).toEqual('block');
+        describe('onDeviceReady', function() {
+            it('should report that it fired', function() {
+                spyOn(app, 'receivedEvent');
+                app.onDeviceReady();
+                expect(app.receivedEvent).toHaveBeenCalledWith('deviceready');
+            });
+        });
+
+        describe('receivedEvent', function() {
+
+//        var el;
+//
+//        beforeEach(function() {
+//            el = document.getElementById('app');
+//            el.innerHTML = ['<div id="deviceready">',
+//                '    <p class="event listening">Listening</p>',
+//                '    <p class="event received">Received</p>',
+//                '</div>'].join('\n');
+//        });
+//        afterEach(function() {
+//            el.remove();
+//        });
+
+            it('should hide the listening element', function() {
+                app.receivedEvent('deviceready');
+                var displayStyle = this.helper.getComputedStyle('#deviceready .listening', 'display');
+                expect(displayStyle).toEqual('none');
+            });
+
+            it('should show the received element', function() {
+                app.receivedEvent('deviceready');
+                var displayStyle = this.helper.getComputedStyle('#deviceready .received', 'display');
+                expect(displayStyle).toEqual('block');
+            });
         });
     });
+
 });
 

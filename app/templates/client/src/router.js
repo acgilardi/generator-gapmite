@@ -1,6 +1,6 @@
 var Backbone = require('backbone'),
     TodayView = require('./views/today'),
-//    AddView = require('./views/add'),
+    AddView = require('./views/add'),
 //    Template = require('./models/template'),
 //    Templates = require('./collections/templates'),
 //    Goal = require('./models/goal'),
@@ -35,12 +35,12 @@ var Router = module.exports = Backbone.Router.extend({
         this.showView(new TodayView(/*{model: holdData}*/));
         this.navigate('today');
     },
-//    add: function() {
+    add: function() {
 //        //me = this;
 //        //me.slider.slidePage(new AddView().$el);
-//        this.showView(new AddView());
-//        this.navigate('add');
-//    },
+        this.showView(new AddView());
+        this.navigate('add');
+    },
 //    navigateStep: function(stepName) {
 //        if(this[stepName] !== undefined) {
 //            this[stepName]();

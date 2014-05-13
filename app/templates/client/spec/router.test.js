@@ -1,6 +1,7 @@
 var Backbone = require('backbone'),
     Router = require('../src/router'),
-    TodayView = require('../src/views/today');
+    TodayView = require('../src/views/today'),
+    AddView = require('../src/views/add');
 
 describe('router class', function() {
 
@@ -22,6 +23,11 @@ describe('router class', function() {
         expect(router.showView)
             .toHaveBeenCalledWith(jasmine.any(TodayView));
         expect(router.navigate).toHaveBeenCalledWith('today');
+    });
+    it("will route to add view", function () {
+        router.add();
+        expect(router.showView).toHaveBeenCalledWith(jasmine.any(AddView));
+        expect(router.navigate).toHaveBeenCalledWith('add');
     });
     it('will update the app with the current view', function () {
         router.today();

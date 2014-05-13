@@ -96,6 +96,11 @@ module.exports = function (grunt) {
                     }, {
                         expand: true,
                         flatten: true,
+                        src: 'client/img/*',
+                        dest: 'build/images/'
+                    }, {
+                        expand: true,
+                        flatten: true,
                         src: 'flatui/css/**/*.css',
                         dest: 'app/www/css/'
                     }, {
@@ -228,7 +233,7 @@ module.exports = function (grunt) {
                 command: 'open "/Applications/Google\ Chrome.app" ' +
                     '-n --args --enable-file-cookies  --disable-web-security -allow-file-access-from-files ' +
                     yeomanConfig.www + ' ' + yeomanConfig.specRunner
-            },
+            }
         }
     });
 
@@ -246,7 +251,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
-    grunt.loadNpmTasks('hbsfy');
 
     // load bower tasks independently
     grunt.registerTask('load-bower', [], function () {

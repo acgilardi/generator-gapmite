@@ -1,5 +1,3 @@
-require('./config');
-
 var Jquery = require('jquery'),
     Backbone = require('backbone'),
     I18n = require('./services/i18n'),
@@ -21,12 +19,12 @@ window.App.prototype = {
     config: {},
     loc: {},
     views: {},
-    //models: {},
-//    collections: {},
+    models: {},
+    collections: {},
     router: {},
     db: {},
-//
-    initialize: function() {
+
+    initialize: function(config) {
         this.bindEvents();
         this.config = config;
         this.loc = new I18n({
@@ -49,34 +47,34 @@ window.App.prototype = {
         DataService(options, function(error, db) {
             console.log('database loaded - forceNew:' + options.forceNew);
             me.db = db;
-            me.config.forceNew = false;
-//
-//            //load initial data
-//            async.series({
-//                    preference: function(callback){
-//                        me.models.preference = new Preference();
-//                        me.models.preference.fetch({
-//                            success: function(data) {
-//                                callback(null, data);
-//                            }
-//                        });
-//                    },
-////                    two: function(callback){
-////                        setTimeout(function(){
-////                            callback(null, 2);
-////                        }, 100);
-////                    }
-//                },
-//                function(err, results) {
-//                    // results is now equal to: {one: 1, two: 2}
-//                    console.log('async fetch done');
-                    me.initialized = true;
-                    if(!Backbone.History.started) {
-                        console.log('backbone history start');
-                        Backbone.history.start();
-                    }
-//                });
-//
+            me.config.dbForceNew = false;
+
+            //load initial data
+            async.series({
+                preference: function(callback){
+                    me.models.preference = new Preference();
+                    me.models.preference.fetch({
+                        success: function(data) {
+                            callback(null, data);
+                        }
+                    });
+                },
+//                    two: function(callback){
+//                        setTimeout(function(){
+//                            callback(null, 2);
+//                        }, 100);
+//                    }
+            },
+            function(err, results) {
+                // results is now equal to: {one: 1, two: 2}
+                console.log('async fetch done');
+                me.initialized = true;
+                if(!Backbone.History.started) {
+                    console.log('backbone history start');
+                    Backbone.history.start();
+                }
+            });
+
 //            //get preferences
 //
 //            // get templates
