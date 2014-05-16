@@ -1,6 +1,6 @@
 config = {
     dbName: 'appdb',
     dbVersion: 1,
-    dbForceNew: false,
+    dbForceNew: true,
     language: navigator.language.toLowerCase()
 };

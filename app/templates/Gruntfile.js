@@ -83,6 +83,12 @@ module.exports = function (grunt) {
             initial: {
                 files: [
                     {
+                        src: 'client/IndexedDBShim.js',
+                        dest: 'build/IndexedDBShim.js'
+                    }, {
+                        src: 'client/IndexedDBShim.js',
+                        dest: 'app/www/IndexedDBShim.js'
+                    }, {
                         src: 'client/SpecRunner.html',
                         dest: 'build/SpecRunner.html'
                     }, {
