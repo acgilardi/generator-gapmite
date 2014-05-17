@@ -233,7 +233,7 @@ var DataService = module.exports = function (options, callback) {
 
         openDbRequest.onsuccess = function (event) {
             db = event.target.result;
-            prepareBrowserDbInstance(_.last(upgrades), callback);
+            prepareBrowserDbInstance(_.last(options.upgrades), callback);
         };
 
         openDbRequest.onupgradeneeded = function(event) {
@@ -259,7 +259,7 @@ var DataService = module.exports = function (options, callback) {
             };
 
             for (var ver = event.oldVersion + 1; ver <= event.newVersion; ver++) {
-                for(var up = 0; up < upgrades.length; up++) {
+                for(var up = 0; up < options.upgrades.length; up++) {
                     var upgrade = options.upgrades[up];
 
                     if(upgrade.version === ver) {

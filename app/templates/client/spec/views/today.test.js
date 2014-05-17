@@ -1,6 +1,7 @@
 var Backbone = require('backbone'),
     TodayView = require('../../src/views/today'),
     AddView = require('../../src/views/add');
+    TodayModel = require('../../src/models/today');
 
 describe('TodayView', function() {
 
@@ -11,6 +12,11 @@ describe('TodayView', function() {
         todayView = app.views.currentView;
     });
 
+
+    it('will contain a today model', function () {
+        expect(todayView.model instanceof TodayModel).toBeTruthy();
+    });
+
     describe('add action selected', function () {
         it('will launch add view', function () {
             todayView.$('#nav-add').trigger('click');
@@ -19,11 +25,14 @@ describe('TodayView', function() {
     });
 
     describe('render', function () {
+        var activeDate = new Date(2014,1,1);
 
         beforeEach(function() {
             spyOn(todayView, 'presentGuide').andCallThrough();
             spyOn(todayView, 'hideGuide').andCallThrough();
+            spyOn(todayView, 'fetchGoals');
             spyOn(app.db.preference, 'save');
+            todayView.model.set('activeDate', activeDate);
             todayView.delegateEvents();
         });
 
@@ -49,6 +58,11 @@ describe('TodayView', function() {
             todayView.$('.splash-page').trigger('click');
             expect(todayView.hideGuide).toHaveBeenCalled();
         });
+        it('will fetch goals for the day', function () {
+            todayView.render();
+            expect(todayView.fetchGoals)
+                .toHaveBeenCalledWith(activeDate);
+        });
     });
 
     describe('presentGuide', function () {
@@ -67,5 +81,31 @@ describe('TodayView', function() {
             var visible = this.helper.isVisible(todayView, '.splash-page');
             expect(visible).toEqual(false);
         });
+    });
+
+    describe('goals', function () {
+        it('should exist as a collection', function () {
+            expect(todayView.goals).toBeDefined();
+        });
+    });
+
+    describe('fetchGoals', function () {
+        beforeEach(function() {
+            spyOn(todayView, 'fetchGoals');
+            todayView.fetchGoals();
+        });
+
+        it('should fetch goals from database', function () {
+            expect(todayView.fetchGoals).toHaveBeenCalled();
+        });
+        it('should populate a goals view', function () {
+            expect(todayView.goals.length).toBeGreaterThan(0);
+        });
+//        it('should populate goals for given date', function () {
+//
+//        });
+//        it('should assign the goals view to the today view', function () {
+//
+//        });
     });
 });

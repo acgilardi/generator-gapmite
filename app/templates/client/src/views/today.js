@@ -1,11 +1,11 @@
-var Backbone = require('backbone');//,
+var Backbone = require('backbone'),
     //GoalsView = require('./goals'),
-    //GoalsCollection = require('../collections/goals');
+    GoalsCollection = require('../collections/goals');
 
 var TodayView = module.exports = Backbone.View.extend({
     template: require('../../templates/today.hbs'),
     initialize: function(){
-        //this.goals = new GoalsCollection();
+        this.goals = new GoalsCollection();
         this.render();
     },
     events: {
@@ -13,19 +13,8 @@ var TodayView = module.exports = Backbone.View.extend({
         'click .splash-page': 'hideGuide'
     },
     render: function() {
-
         this.$el.html(this.template());
-//
-//
-//        var self = this;
-//        console.log('fetching...');
-//        this.goals.fetch({
-//            success: function(data) {
-//                console.log('fetched');
-//                var view =  new GoalsView({collection: data});
-//                self.assign('#goals-view', view);
-//            }
-//        });
+        this.fetchGoals(this.model.get('activeDate'));
 
         // show guide on first visit
         if (app.models.preference.get('firstVisit') === true) {
@@ -55,5 +44,16 @@ var TodayView = module.exports = Backbone.View.extend({
     },
     onAdd: function() {
         app.router.add();
+    },
+    fetchGoals: function(selectedDate) {
+        //var self = this;
+        console.log('fetching...');
+        this.goals.fetch({
+            success: function(data) {
+                console.log('fetched');
+                //var view =  new GoalsView({collection: data});
+                //self.assign('#goals-view', view);
+            }
+        });
     }
 });

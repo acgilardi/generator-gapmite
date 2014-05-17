@@ -5,6 +5,7 @@ var Backbone = require('backbone'),
 //    Templates = require('./collections/templates'),
 //    Goal = require('./models/goal'),
 //    Goals = require('./collections/goals'),
+    TodayModel = require('./models/today'),
     PageSlider = require('./services/pageslider');
 //
 var Router = module.exports = Backbone.Router.extend({
@@ -27,12 +28,7 @@ var Router = module.exports = Backbone.Router.extend({
 //    },
 //
     today: function() {
-////        var template = new Template({id: 1});
-////        var holdData;
-////
-////        var me = this;
-////
-        this.showView(new TodayView(/*{model: holdData}*/));
+        this.showView(new TodayView({model: new TodayModel}));
         this.navigate('today');
     },
     add: function() {

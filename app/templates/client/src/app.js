@@ -5,7 +5,7 @@ var Jquery = require('jquery'),
     async = require('async'),
     Preference = require('./models/preference'),
     DataService = require('./services/data'),
-    Upgrades = require('./services/upgrades');
+    Upgrade1 = require('./services/upgrade1');
 
     //Templates = require('./collections/templates');
 
@@ -37,12 +37,16 @@ window.App.prototype = {
 
         var me = this;
 
+        // add database upgrades
+        var upgrades = [];
+        upgrades.push(Upgrade1());
+
         //instantiate indexeddb
         var options = {
             name: this.config.dbName,
             version: this.config.dbVersion,
             forceNew: this.config.dbForceNew,
-            upgrades: Upgrades()
+            upgrades: upgrades
         };
         DataService(options, function(error, db) {
             console.log('database loaded - forceNew:' + options.forceNew);
