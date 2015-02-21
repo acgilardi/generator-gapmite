@@ -1,69 +1,89 @@
 // Karma configuration
-// Generated on Sat Dec 21 2013 19:28:46 GMT-0500 (Eastern Standard Time)
+// Generated on Wed Oct 29 2014 20:06:42 GMT-0400 (EDT)
 
-module.exports = function(config) {
-  config.set({
+module.exports = function (config) {
+    config.set({
 
-    // base path, that will be used to resolve files and exclude
-    basePath: '',
-
-
-    // frameworks to use
-    frameworks: ['jasmine'],
+        // base path that will be used to resolve all patterns
+        // (eg. files, exclude)
+        basePath: '../),
 
 
-    // list of files / patterns to load in the browser
-    files: [
-      'build/vendor.js',
-      'build/spec.js'
-    ],
+        // frameworks to use
+        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ['jasmine'],
 
 
-    // list of files to exclude
-    exclude: [
-      
-    ],
+        // list of files / patterns to load in the browser
+        files: [
+            'app/vendor/jquery/jquery.js',
+            'app/vendor/underscore/underscore.js',
+            'app/vendor/moment/moment.js',
+            'app/scripts/**/*.js',
+            'test/**/fixtures.js',
+            'test/**/*.test.js'
+        ],
 
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+        // list of files to exclude
+        exclude: [
+        ],
 
 
-    // web server port
-    port: 9876,
+        // preprocess matching files before serving them to the browser
+        // available preprocessors:
+        //  https://npmjs.org/browse/keyword/karma-preprocessor
 
 
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
+
+        // test results reporter to use
+        // possible values: 'dots', 'progress'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ['progress', 'coverage'],
+
+        // Code coverage report
+        preprocessors: {
+            'app/scripts/**/*.js': ['coverage']
+        },
+        coverageReporter: {
+            type: 'html',
+            dir: 'coverage'
+        },
+
+        // Don't forget to add 'karma-coverage' to your list of plugins
+        plugins: [
+            'karma-phantomjs-launcher',
+            'karma-jasmine',
+            'karma-coverage' // required for coverage
+        ],
 
 
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+        // web server port
+        port: 9876,
 
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
 
 
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera (has to be installed with `npm install karma-opera-launcher`)
-    // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
-    // - PhantomJS
-    // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['PhantomJS'],
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR ||
+        // config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        logLevel: config.LOG_INFO,
 
 
-    // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
+        // enable/disable watching file and executing tests when a file changes
+        autoWatch: true,
 
 
-    // Continuous Integration mode
-    // if true, it capture browsers, run tests and exit
-    singleRun: false
-  });
+        // start these browsers
+        // available browser launchers:
+        // https://npmjs.org/browse/keyword/karma-launcher
+        browsers: ['PhantomJS'],
+
+
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false
+    });
 };
