@@ -1,7 +1,8 @@
 /node_modules
+/app
 /build
+/coverage
 .sass-cache
 .tmp
 .idea
 .DS_Store
-app/www/
