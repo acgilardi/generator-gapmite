@@ -40,33 +40,13 @@ module.exports = function (grunt) {
                 path: 'dist'
             },
             create: {
+
                 options: {
                     command: ['create', 'platform', 'plugin'],
-                    platforms: ['ios'],
-                    plugins:  [
-                        //'battery-status',
-                        //'camera',
-                        //'console',
-                        //'contacts',
-                        'device',
-                        //'device-motion',
-                        'device-orientation',
-                        //'dialogs',
-                        //'file',
-                        //'geolocation',
-                        //'globalization',
-                        //'inappbrowser',
-                        //'media',
-                        //'media-capture',
-                        'network-information',
-                        //'splashscreen',
-                        //'vibration',
-                        'org.apache.cordova.statusbar'//,
-                        //'com.telerik.plugins.wkwebview'
-                        //'https://github.com/apache/cordova-plugins.git#master:wkwebview-engine'
-                    ],
-                    id: 'com.openenvironment.emergencyhound',
-                    name: 'emergencyhound'
+                    platforms: <%= platforms %>,
+                    plugins:  <%= plugins %>,
+                    id: '<%= appId %>',
+                    name: '<%= _.slugify(appName) %>'
                 }
             },
             emulate_ipad: {
@@ -191,9 +171,10 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('createapp', ['create:app']);
+    grunt.registerTask('createapp', ['create:app', 'serve:initial']);
     grunt.registerTask('cleanapp', ['clean:app']);
-    grunt.registerTask('build', ['clean:dev', 'bower', 'copy:dev', 'compass:dev']);
+    grunt.registerTask('build', ['clean:dev', 'copy:dev', 'compass:dev']);
     grunt.registerTask('serve', ['build', 'watch']);
-    grunt.registerTask('ios',['cordovacli:run_ipad'])
+    grunt.registerTask('serve:initial', ['clean:dev', 'bower', 'copy:dev', 'compass:dev', 'shell:open', 'connect']);
+    grunt.registerTask('ios', ['cordovacli:run_ipad'])
 };
