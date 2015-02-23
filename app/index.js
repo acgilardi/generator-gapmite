@@ -96,7 +96,6 @@
       },
 
       projectfiles: function () {
-         this.copy('.bowerrc', '.bowerrc');
          this.copy('.gitignore', '.gitignore');
          this.copy('.editorconfig', '.editorconfig');
          this.copy('.jshintrc', '.jshintrc');
